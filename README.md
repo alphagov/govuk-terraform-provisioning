@@ -21,17 +21,17 @@ export AWS_SECRET_ACCESS_KEY='SECRET_KEY'
 ## Doing a dry-run
 
 ```
-terraform plan
+make plan
 ```
 
 ## Changing things
 
 ```
-terraform apply
+make apply
 ```
 
 ## Making a graph
 
 ```
-terraform graph | dot -Tpng > graph.png
+make graph
 ```
