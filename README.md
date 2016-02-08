@@ -11,23 +11,23 @@ brew install terraform
 
 ## Setting up credentials
 
-Create a file called `secrets.tfvars` which looks like this:
+Export your AWS credentials as environment variables:
 
 ```
-aws_access_key = "akia_access_key"
-aws_secret_key = "secret_key"
+export AWS_ACCESS_KEY_ID='ACCESS_KEY'
+export AWS_SECRET_ACCESS_KEY='SECRET_KEY'
 ```
 
 ## Doing a dry-run
 
 ```
-terraform plan -var-file="secrets.tfvars" .
+terraform plan .
 ```
 
 ## Changing things
 
 ```
-terraform apply -var-file="secrets.tfvars" .
+terraform apply .
 ```
 
 ## Making a graph
