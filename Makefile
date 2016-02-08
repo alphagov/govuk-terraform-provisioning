@@ -26,6 +26,7 @@ apply: configure-state
 
 graph:
 	terraform graph | dot -Tpng > graph.png
+	open graph.png
 
 plan: configure-state
 	terraform plan
