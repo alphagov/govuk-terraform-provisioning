@@ -24,7 +24,7 @@ export AWS_SECRET_ACCESS_KEY='SECRET_KEY'
 make plan
 ```
 
-## Changing things
+## Apply changes
 
 ```
 make apply
