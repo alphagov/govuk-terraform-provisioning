@@ -11,6 +11,14 @@ resource "aws_iam_user" "alexmuller_user" {
     name = "alexmuller"
 }
 
+resource "aws_iam_user" "bobwalker_user" {
+    name = "bobwalker"
+}
+
+resource "aws_iam_user" "deanwilson_user" {
+    name = "deanwilson"
+}
+
 resource "aws_iam_user" "mattbostock_user" {
     name = "mattbostock"
 }
@@ -19,6 +27,8 @@ resource "aws_iam_group_membership" "infrastructure_membership" {
     name = "infrastructure-group-membership"
     users = [
         "${aws_iam_user.alexmuller_user.name}",
+        "${aws_iam_user.bobwalker_user.name}",
+        "${aws_iam_user.deanwilson_user.name}",
         "${aws_iam_user.mattbostock_user.name}",
     ]
     group = "${aws_iam_group.infrastructure_group.name}"
