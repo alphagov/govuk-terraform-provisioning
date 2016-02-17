@@ -28,11 +28,11 @@ configure-state: check-for-local-state purge-remote-state-cache
 	  -backend-config='region=eu-west-1'
 
 apply: configure-state
-	terraform apply -var 'environment=$(DEPLOY_ENV)'
+	terraform apply -var-file=$(DEPLOY_ENV).tfvars
 
 graph:
 	terraform graph | dot -Tpng > graph.png
 	open graph.png
 
 plan: configure-state
-	terraform plan -var 'environment=$(DEPLOY_ENV)'
+	terraform plan -var-file=$(DEPLOY_ENV).tfvars
