@@ -23,6 +23,10 @@ resource "aws_iam_user" "mattbostock_user" {
     name = "mattbostock"
 }
 
+resource "aws_iam_user" "paulmartin_user" {
+    name = "paulmartin"
+}
+
 resource "aws_iam_group_membership" "infrastructure_membership" {
     name = "infrastructure-group-membership"
     users = [
@@ -30,6 +34,7 @@ resource "aws_iam_group_membership" "infrastructure_membership" {
         "${aws_iam_user.bobwalker_user.name}",
         "${aws_iam_user.deanwilson_user.name}",
         "${aws_iam_user.mattbostock_user.name}",
+        "${aws_iam_user.paulmartin_user.name}",
     ]
     group = "${aws_iam_group.infrastructure_group.name}"
 }

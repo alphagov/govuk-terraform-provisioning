@@ -38,32 +38,46 @@ make graph
 
 # Creating a fresh environment
 
-1. Create a new directory in this repo named after the environment you wish to
-   create, matching the naming scheme of the account in AWS. Create the
-   terraform configuration files in this directory.
-2. Create the account in AWS
-3. Log in and generate root account access keys
-4. Export the AWS credentials as environment variables:
+1. Create the account in AWS
+2. Log in and generate root account access keys
+3. Export the AWS credentials as environment variables:
 
    ```
    export AWS_ACCESS_KEY_ID='ACCESS_KEY'
    export AWS_SECRET_ACCESS_KEY='SECRET_KEY'
    ```
 
-5. Manually run `terraform plan` for the first time:
+4. Export the environment name you wish to create:
 
    ```
-   terraform plan <environment>
+   export DEPLOY_ENV=<environment>
    ```
 
-6. Manually run `terraform apply` for the first time:
+5. Ensure that the `.terraform` directory does not exist:
 
    ```
-   terraform apply <environment>
+   rm -rf .terraform
    ```
+
+5. Manually run `terraform plan` for the first time. It will prompt you for the
+   environment, so just enter the one you set above:
+
+   ```
+   terraform plan
+   ```
+
+6. Manually run `terraform apply` for the first time. Again, it will prompt you
+   for the environment:
+
+   ```
+   terraform apply
+   ```
+
+   It will error at the end of this step complaining it can't find a bucket,
+   but this is expected so move on to the next step.
 
 7. Manually run the remote config task, ensuring the environment name matches
-   what has been set up previously, and changing any variables as required:
+   what has been entered previously:
 
    ```
    terraform remote config -backend=s3 \

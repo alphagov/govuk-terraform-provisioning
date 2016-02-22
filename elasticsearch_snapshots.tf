@@ -4,7 +4,7 @@ variable "elasticsearch_snapshots_bucket_name" {
 }
 
 resource "aws_s3_bucket" "elasticsearch_snapshots_bucket" {
-    bucket = "${var.elasticsearch_snapshots_bucket_name}"
+    bucket = "${var.elasticsearch_snapshots_bucket_name}-${var.environment}"
     policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -14,14 +14,14 @@ resource "aws_s3_bucket" "elasticsearch_snapshots_bucket" {
       "Effect": "Allow",
       "Principal": "*",
       "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::${var.elasticsearch_snapshots_bucket_name}/*"
+      "Resource": "arn:aws:s3:::${var.elasticsearch_snapshots_bucket_name}-${var.environment}/*"
     }
   ]
 }
 EOF
 
     tags {
-        Environment = "Production"
+        Environment = "${var.environment}"
         Team = "Finding things"
     }
 }
@@ -46,7 +46,7 @@ resource "aws_iam_policy" "govuk_api_elasticsearch_snapshots_policy" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::${var.elasticsearch_snapshots_bucket_name}"
+        "arn:aws:s3:::${var.elasticsearch_snapshots_bucket_name}-${var.environment}"
       ]
     },
     {
@@ -58,7 +58,7 @@ resource "aws_iam_policy" "govuk_api_elasticsearch_snapshots_policy" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::${var.elasticsearch_snapshots_bucket_name}/*"
+        "arn:aws:s3:::${var.elasticsearch_snapshots_bucket_name}-${var.environment}/*"
       ]
     }
   ]
