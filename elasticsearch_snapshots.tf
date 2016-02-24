@@ -54,7 +54,9 @@ resource "aws_iam_policy" "govuk_api_elasticsearch_snapshots_policy" {
         "s3:GetObject",
         "s3:PutObject",
         "s3:AbortMultipartUpload",
-        "s3:ListMultipartUploadParts"
+        "s3:ListMultipartUploadParts",
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion"
       ],
       "Effect": "Allow",
       "Resource": [
