@@ -11,6 +11,9 @@ resource "aws_s3_bucket" "uktt_data_bucket" {
     acl = "private"
     bucket = "${var.uktt_data_bucket_name}-${var.environment}"
     count = "${var.uktt_data_enabled}"
+    versioning {
+      enabled = true
+    }
     tags {
         Environment = "${var.environment}"
         Team = "Infrastructure"
