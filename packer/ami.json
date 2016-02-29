@@ -1,0 +1,13 @@
+{
+  "variables": {},
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "ami_name": "govuk-trusty-1404-{{isotime \"2006-01-02T1504\"}}",
+      "instance_type": "t2.micro",
+      "region": "eu-west-1",
+      "source_ami": "ami-b0c379c3",
+      "ssh_username": "ubuntu"
+    }
+  ]
+}
