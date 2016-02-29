@@ -9,5 +9,11 @@
       "source_ami": "ami-b0c379c3",
       "ssh_username": "ubuntu"
     }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "scripts/provision.sh"
+    }
   ]
 }
