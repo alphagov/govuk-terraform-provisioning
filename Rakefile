@@ -73,7 +73,6 @@ end
 
 desc 'create and display the resource graph'
 task :graph do
-  # todo  - does this need plan / apply to have been run
   system('terraform graph | dot -Tpng > graph.png')
   system('open graph.png')
 end
