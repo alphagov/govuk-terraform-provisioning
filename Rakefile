@@ -88,9 +88,9 @@ desc 'Apply the terraform resources'
 task apply: [:configure_state] do
   tmp_dir = _flatten_project
 
-  puts "terraform apply -var-file=common.tfvars -var-file=#{deploy_env}.tfvars #{tmp_dir}"
+  puts "terraform apply -var-file=#{deploy_env}.tfvars #{tmp_dir}"
 
-  system("terraform apply -var-file=common.tfvars -var-file=#{deploy_env}.tfvars #{tmp_dir}")
+  system("terraform apply -var-file=#{deploy_env}.tfvars #{tmp_dir}")
 
   FileUtils.rm_r tmp_dir
 end
