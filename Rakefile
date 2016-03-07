@@ -102,7 +102,7 @@ desc 'Show the plan'
 task plan: [:configure_state] do
   tmp_dir = _flatten_project
 
-  system("terraform plan -var-file=common.tfvars -var-file=#{deploy_env}.tfvars #{tmp_dir}")
+  system("terraform plan -module-depth=-1 -var-file=#{deploy_env}.tfvars #{tmp_dir}")
 
   FileUtils.rm_r tmp_dir
 end
