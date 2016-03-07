@@ -13,7 +13,7 @@ task :validate_environment do
   end
 
   unless ENV.include?('PROJECT_NAME')
-    warn 'Please specify a project name. Use legacy for pre project split code.'
+    warn 'Please set the "PROJECT_NAME" environment variable. Use "legacy" for pre project split code.'
     exit 1
   end
 
