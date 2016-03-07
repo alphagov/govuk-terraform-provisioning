@@ -72,9 +72,11 @@ end
 
 
 desc 'create and display the resource graph'
-task :graph do
-  system('terraform graph | dot -Tpng > graph.png')
+task graph: [:configure_state] do
+  tmp_dir = _flatten_project
+  system("terraform graph #{tmp_dir} | dot -Tpng > graph.png")
   system('open graph.png')
+  FileUtils.rm_r tmp_dir
 end
 
 
