@@ -136,11 +136,11 @@ def _flatten_project
 
   # add an inner loop here if we want to copy other file extensions too
   [ 'configs', base_path, "#{base_path}/#{deploy_env}" ].each do |dir|
-    if ! Dir["#{dir}/*.tf"].empty?
-      puts "Working on #{Dir[dir + '/*.tf']}" if debug
-      system("terraform get #{dir}")
-      FileUtils.cp( Dir["#{dir}/*.tf"], tmp_dir)
-    end
+    next if Dir["#{dir}/*.tf"].empty?
+
+    puts "Working on #{Dir[dir + '/*.tf']}" if debug
+    system("terraform get #{dir}")
+    FileUtils.cp( Dir["#{dir}/*.tf"], tmp_dir)
   end
 
   tmp_dir
