@@ -50,8 +50,18 @@ task :purge_remote_state do
 end
 
 
+desc 'Configure the remote state. Destroys local only state.'
+task configure_state: [:local_state_check, :configure_s3_state] do
+  # This exists because in the default case we want to delete local state.
+  #
+  # In a bootstrap situation don't purge the local state otherwise we'll
+  # never have anything to push to S3.
+  true
+end
+
+
 desc 'Configure the remote state location'
-task configure_state: [:validate_environment, :local_state_check, :purge_remote_state] do
+task configure_s3_state: [:validate_environment, :purge_remote_state] do
   region      = 'eu-west-1'
   bucket_name = "govuk-terraform-state-#{deploy_env}"
 
@@ -107,14 +117,25 @@ task plan: [:configure_state] do
   FileUtils.rm_r tmp_dir
 end
 
+# FIXME: This errors on initial run, but does the correct thing, but needs to be run twice.
+desc 'Bootstrap a project from local configuration to a clean bucket'
+task :bootstrap do
+  tmp_dir = _flatten_project
 
+  system("terraform plan -module-depth=-1 -var-file=#{deploy_env}.tfvars #{tmp_dir}")
+  system("terraform apply -var-file=#{deploy_env}.tfvars #{tmp_dir}")
+
+  Rake::Task["configure_s3_state"].invoke
+
+  FileUtils.rm_r tmp_dir
+end
 
 def _flatten_project
   tmp_dir   = Dir.mktmpdir('tf-temp')
   base_path = File.join(PROJECT_DIR, project_name, 'resources')
 
   # add an inner loop here if we want to copy other file extensions too
-  [ base_path, "#{base_path}/#{deploy_env}" ].each do |dir|
+  [ 'configs', base_path, "#{base_path}/#{deploy_env}" ].each do |dir|
     if ! Dir["#{dir}/*.tf"].empty?
       puts "Working on #{Dir[dir + '/*.tf']}" if debug
       system("terraform get #{dir}")
