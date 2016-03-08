@@ -125,7 +125,7 @@ task :bootstrap do
   system("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
   system("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
-  Rake::Task["configure_s3_state"].invoke
+  Rake::Task['configure_s3_state'].invoke
 
   FileUtils.rm_r tmp_dir
 end
