@@ -1,5 +1,5 @@
 module "admins" {
-  source = "../../modules/admins"
+  source = "../../../modules/admins"
 }
 
 resource "aws_iam_policy" "require_office_ip" {
