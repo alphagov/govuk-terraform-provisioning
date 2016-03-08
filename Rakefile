@@ -18,7 +18,7 @@ task :validate_environment do
   end
 
   unless project_name.empty?
-    unless File.exists? File.join(PROJECT_DIR, project_name)
+    unless File.exist? File.join(PROJECT_DIR, project_name)
       warn "Unable to find project #{project_name} in #{PROJECT_DIR}"
       exit 1
     end
