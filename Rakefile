@@ -92,7 +92,7 @@ end
 
 desc 'Apply the monolithic, pre-extracted projects, terraform resources'
 task apply_legacy: [:configure_state] do
-  system("terraform apply -var-file=#{deploy_env}.tfvars")
+  system("terraform apply -var-file=variables/#{deploy_env}.tfvars")
 end
 
 
@@ -100,9 +100,9 @@ desc 'Apply the terraform resources'
 task apply: [:configure_state] do
   tmp_dir = _flatten_project
 
-  puts "terraform apply -var-file=#{deploy_env}.tfvars #{tmp_dir}"
+  puts "terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}"
 
-  system("terraform apply -var-file=#{deploy_env}.tfvars #{tmp_dir}")
+  system("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
   FileUtils.rm_r tmp_dir
 end
@@ -112,7 +112,7 @@ desc 'Show the plan'
 task plan: [:configure_state] do
   tmp_dir = _flatten_project
 
-  system("terraform plan -module-depth=-1 -var-file=#{deploy_env}.tfvars #{tmp_dir}")
+  system("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
   FileUtils.rm_r tmp_dir
 end
@@ -122,8 +122,8 @@ desc 'Bootstrap a project from local configuration to a clean bucket'
 task :bootstrap do
   tmp_dir = _flatten_project
 
-  system("terraform plan -module-depth=-1 -var-file=#{deploy_env}.tfvars #{tmp_dir}")
-  system("terraform apply -var-file=#{deploy_env}.tfvars #{tmp_dir}")
+  system("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
+  system("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
   Rake::Task["configure_s3_state"].invoke
 
