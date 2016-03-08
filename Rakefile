@@ -13,7 +13,7 @@ task :validate_environment do
   end
 
   unless ENV.include?('PROJECT_NAME')
-    warn 'Please set the "PROJECT_NAME" environment variable. Use "legacy" for pre project split code.'
+    warn 'Please set the "PROJECT_NAME" environment variable.'
     exit 1
   end
 
@@ -90,12 +90,6 @@ task graph: [:configure_state] do
 end
 
 
-desc 'Apply the monolithic, pre-extracted projects, terraform resources'
-task apply_legacy: [:configure_state] do
-  system("terraform apply -var-file=variables/#{deploy_env}.tfvars")
-end
-
-
 desc 'Apply the terraform resources'
 task apply: [:configure_state] do
   tmp_dir = _flatten_project
@@ -151,7 +145,7 @@ def deploy_env
 end
 
 def project_name
-  ENV['PROJECT_NAME'] == 'legacy' ? '' : ENV['PROJECT_NAME']
+  ENV['PROJECT_NAME']
 end
 
 def debug
