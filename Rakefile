@@ -18,7 +18,7 @@ task :validate_environment do
   end
 
   unless project_name.empty?
-    unless File.exists? File.join(PROJECT_DIR, project_name)
+    unless File.exist? File.join(PROJECT_DIR, project_name)
       warn "Unable to find project #{project_name} in #{PROJECT_DIR}"
       exit 1
     end
@@ -125,7 +125,7 @@ task :bootstrap do
   system("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
   system("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
-  Rake::Task["configure_s3_state"].invoke
+  Rake::Task['configure_s3_state'].invoke
 
   FileUtils.rm_r tmp_dir
 end
@@ -136,11 +136,11 @@ def _flatten_project
 
   # add an inner loop here if we want to copy other file extensions too
   [ 'configs', base_path, "#{base_path}/#{deploy_env}" ].each do |dir|
-    if ! Dir["#{dir}/*.tf"].empty?
-      puts "Working on #{Dir[dir + '/*.tf']}" if debug
-      system("terraform get #{dir}")
-      FileUtils.cp( Dir["#{dir}/*.tf"], tmp_dir)
-    end
+    next if Dir["#{dir}/*.tf"].empty?
+
+    puts "Working on #{Dir[dir + '/*.tf']}" if debug
+    system("terraform get #{dir}")
+    FileUtils.cp( Dir["#{dir}/*.tf"], tmp_dir)
   end
 
   tmp_dir
