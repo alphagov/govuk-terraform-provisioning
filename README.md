@@ -6,6 +6,7 @@ We're using Terraform as an experiment.
 ## Installing Terraform
 
 ```
+brew update
 brew install terraform
 ```
 
@@ -18,22 +19,40 @@ export AWS_ACCESS_KEY_ID='ACCESS_KEY'
 export AWS_SECRET_ACCESS_KEY='SECRET_KEY'
 ```
 
+## Setting up the environment
+
+Export the environment applicable to your credentials:
+
+```
+export DEPLOY_ENV=<environment>
+```
+
+## Setting up your project
+
+Export the project you're working on as an environment variable. Projects are
+stored under the `projects` directory:
+
+```
+export PROJECT_NAME=<project>
+```
+
 ## Show potential changes
 
 ```
-make plan
+bundle install
+bundle exec rake plan
 ```
 
 ## Apply changes
 
 ```
-make apply
+bundle exec rake apply
 ```
 
 ## Making a graph
 
 ```
-make graph
+bundle exec rake graph
 ```
 
 # Creating a fresh environment in AWS
