@@ -11,7 +11,7 @@ variable "terraform_state_bucket_name" {
 resource "aws_s3_bucket" "terraform_state_bucket" {
     acl = "private"
     bucket = "${var.terraform_state_bucket_name}-${var.environment}"
-   tags {
+    tags {
         Environment = "${var.environment}"
         Team = "Infrastructure"
     }
