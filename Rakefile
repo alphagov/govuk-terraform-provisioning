@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'rspec/core/rake_task'
 require 'tmpdir'
 
 PROJECT_DIR = 'projects'
@@ -23,6 +24,19 @@ task :validate_environment do
       exit 1
     end
   end
+end
+
+
+desc 'Run the given projects awsspec tests'
+RSpec::Core::RakeTask.new('spec') do |task|
+  spec_dir = File.join(PROJECT_DIR, project_name, 'spec')
+
+  base_specs        = Dir["#{spec_dir}/*_spec.rb"]
+  environment_specs = Dir["#{spec_dir}/#{deploy_env}/*_spec.rb"]
+
+  all_specs = base_specs + environment_specs
+
+  task.pattern = all_specs.join(',')
 end
 
 
