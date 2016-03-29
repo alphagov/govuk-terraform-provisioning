@@ -91,7 +91,7 @@ task configure_s3_state: [:validate_environment, :purge_remote_state] do
   args << "-backend-config='key=#{key_name}'"
   args << "-backend-config='region=#{region}'"
 
-  system(args.join(' '))
+  system(args.join(' ')) or raise 'Error running Terraform to configure state'
 end
 
 
