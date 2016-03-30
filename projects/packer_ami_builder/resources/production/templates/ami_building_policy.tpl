@@ -28,6 +28,12 @@
         "ec2:CreateTags",
         "ec2:ModifyImageAttribute"
       ],
-      "Resource" : "*"
-  }]
+      "Resource" : "*",
+        "Condition": {
+          "StringEquals": {
+            "ec2:vpc": "arn:aws:ec2:${region}:${account_id}:vpc/${vpc_id}"
+          }
+       }
+    }
+  ]
 }
