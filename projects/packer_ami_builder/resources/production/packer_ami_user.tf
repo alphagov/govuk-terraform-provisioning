@@ -16,13 +16,20 @@ resource "aws_iam_group_membership" "ami_builders_membership" {
 }
 
 resource "template_file" "ami_building_policy_template" {
-  template = "${file("templates/ami_building_policy.tpl")}"
+    # FIXME: use less fixed paths
+    template = "${file("projects/packer_ami_builder/resources/production/templates/ami_building_policy.tpl")}"
+
+    vars {
+        account_id = "${var.account_id}"
+        region     = "${var.aws_default_region}"
+        vpc_id     = "${aws_vpc.ami_builder_vpc.id}"
+    }
 }
 
 resource "aws_iam_policy" "ami_builder_policy" {
     name = "ami-builder-policy"
     description = "ami_builder_policy"
-    policy = "${template_file.ami_building_policy.rendered}"
+    policy = "${template_file.ami_building_policy_template.rendered}"
 }
 
 resource "aws_iam_policy_attachment" "ami_builder_attachment" {
