@@ -18,6 +18,11 @@ task :validate_environment do
     exit 1
   end
 
+  unless ENV.include?('TF_VAR_account_id')
+    warn 'Please set the "TF_VAR_account_id" environment variable.'
+    exit 1
+  end
+
   unless project_name.empty?
     unless File.exist? File.join(PROJECT_DIR, project_name)
       warn "Unable to find project #{project_name} in #{PROJECT_DIR}"

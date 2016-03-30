@@ -3,6 +3,10 @@ variable "environment" {
   type = "string"
 }
 
+variable "account_id" {
+  description = "AWS Account ID"
+}
+
 # FIXME: this will be extracted when we have multiple providers, possibly to
 # configs/<provider_name>.tf
 variable "aws_default_region" {
