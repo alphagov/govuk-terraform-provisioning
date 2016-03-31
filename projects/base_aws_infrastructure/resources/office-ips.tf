@@ -1,6 +1,6 @@
 # variables defined here are available to every environment.
 
-## Office IP Addresses FIXME: must be removed before this repo goes public
+## Office IP Addresses
 ## When adding an ip please also add a comment explaining what it covers
 # 80.194.77.{90,100} - Aviation house office IPs.
 # 85.133.67.244 - DR site.
