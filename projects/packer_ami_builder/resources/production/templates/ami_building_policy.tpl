@@ -14,12 +14,8 @@
         "ec2:AuthorizeSecurityGroupIngress",
         "ec2:CreateImage",
         "ec2:CopyImage",
-        "ec2:RunInstances",
-        "ec2:TerminateInstances",
-        "ec2:StopInstances",
         "ec2:DescribeVolumes",
         "ec2:DetachVolume",
-        "ec2:DescribeInstances",
         "ec2:CreateSnapshot",
         "ec2:DeleteSnapshot",
         "ec2:DescribeSnapshots",
@@ -28,12 +24,22 @@
         "ec2:CreateTags",
         "ec2:ModifyImageAttribute"
       ],
-      "Resource" : "*",
-        "Condition": {
-          "StringEquals": {
-            "ec2:vpc": "arn:aws:ec2:${region}:${account_id}:vpc/${vpc_id}"
-          }
-       }
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:RunInstances",
+        "ec2:TerminateInstances",
+        "ec2:StopInstances",
+        "ec2:DescribeInstances"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:vpc": "arn:aws:ec2:${region}:${account_id}:vpc/${vpc_id}"
+        }
+      }
     }
   ]
 }
