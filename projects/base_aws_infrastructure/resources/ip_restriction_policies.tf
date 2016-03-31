@@ -3,8 +3,8 @@ module "admins" {
 }
 
 resource "aws_iam_policy" "require_office_ip" {
-  name = "RequireOfficeIP"
-  description = "Require requests to come from one of the Office IPs"
+  name = "require_govuk_ip_address"
+  description = "Require requests to come from one of our IPs"
   policy = <<EOT
 {
   "Version": "2012-10-17",
@@ -13,7 +13,8 @@ resource "aws_iam_policy" "require_office_ip" {
     "Action": "*",
     "Resource": "*",
     "Condition": {"NotIpAddress": {"aws:SourceIp": [
-      ${join(",", formatlist("\"%s\"", split(",", var.office_cidrs)))}
+      ${join(",", formatlist("\"%s\"", split(",", var.office_cidrs)))},
+      ${join(",", formatlist("\"%s\"", split(",", var.environment_cidrs)))}
     ]}}
   }
 }
@@ -21,7 +22,7 @@ EOT
 }
 
 resource "aws_iam_policy_attachment" "require_office_ip" {
-  name = "RequireOfficeIP"
+  name = "require_govuk_ip_address"
   groups = [
     "${module.admins.group_name}",
   ]
