@@ -54,7 +54,7 @@
             "Sid": "EC2RunInstancesSubnet",
             "Effect": "Allow",
             "Action": "ec2:RunInstances",
-            "Resource": "arn:aws:ec2:us-east-1:${account_id}:subnet/*",
+            "Resource": "arn:aws:ec2:${region}:${account_id}:subnet/*",
             "Condition": {
                 "StringEquals": {
                     "ec2:vpc": "arn:aws:ec2:${region}:${account_id}:vpc/${vpc_id}"
@@ -66,12 +66,12 @@
             "Effect": "Allow",
             "Action": "ec2:RunInstances",
             "Resource": [
-                "arn:aws:ec2:us-east-1:${account_id}:volume/*",
-                "arn:aws:ec2:us-east-1::image/*",
-                "arn:aws:ec2:us-east-1::snapshot/*",
-                "arn:aws:ec2:us-east-1:${account_id}:network-interface/*",
-                "arn:aws:ec2:us-east-1:${account_id}:key-pair/*",
-                "arn:aws:ec2:us-east-1:${account_id}:security-group/*"
+                "arn:aws:ec2:${region}:${account_id}:volume/*",
+                "arn:aws:ec2:${region}::image/*",
+                "arn:aws:ec2:${region}::snapshot/*",
+                "arn:aws:ec2:${region}:${account_id}:network-interface/*",
+                "arn:aws:ec2:${region}:${account_id}:key-pair/*",
+                "arn:aws:ec2:${region}:${account_id}:security-group/*"
             ]
         },
         {
