@@ -42,18 +42,18 @@ resource "aws_iam_role" "ami_builder_role" {
     # See: https://blogs.aws.amazon.com/security/post/Tx1ZU3LW4LLPQY2/How-to-Help-Lock-Down-a-User-s-Amazon-EC2-Capabilities-to-a-Single-VPC
     name = "VPCLockDown"
     assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
-      "Version": "2012-10-17",
-      "Statement": [
-      {
-        "Action": "sts:AssumeRole",
-        "Principal": {
-          "Service": "ec2.amazonaws.com"
-        },
-        "Effect": "Allow",
-        "Sid": ""
-      }
-    ]
-  }
-  EOF
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
 }
