@@ -2,7 +2,7 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "NonResourceBasedReadOnlyPermissions",
+            "Sid": "GlobalResourcePermissions",
             "Action": [
                 "ec2:Describe*",
                 "ec2:CreateKeyPair",
@@ -30,7 +30,7 @@
             "Resource": "arn:aws:iam::${account_id}:role/VPCLockDown"
         },
         {
-            "Sid": "AllowInstanceActions",
+            "Sid": "AllowInstanceActionsOnProfile",
             "Effect": "Allow",
             "Action": [
                 "ec2:RebootInstances",
@@ -48,7 +48,7 @@
             }
         },
         {
-            "Sid": "EC2RunInstances",
+            "Sid": "EC2RunInstancesWithProfile",
             "Effect": "Allow",
             "Action": "ec2:RunInstances",
             "Resource": "arn:aws:ec2:${region}:${account_id}:instance/*",
@@ -59,7 +59,7 @@
             }
         },
         {
-            "Sid": "EC2RunInstancesSubnet",
+            "Sid": "EC2RunInstancesInSubnet",
             "Effect": "Allow",
             "Action": "ec2:RunInstances",
             "Resource": "arn:aws:ec2:${region}:${account_id}:subnet/*",
@@ -70,7 +70,7 @@
             }
         },
         {
-            "Sid": "RemainingRunInstancePermissions",
+            "Sid": "AdditionalRunInstanceResourcePermissions",
             "Effect": "Allow",
             "Action": "ec2:RunInstances",
             "Resource": [
@@ -83,7 +83,7 @@
             ]
         },
         {
-            "Sid": "EC2VpcNonresourceSpecificActions",
+            "Sid": "EC2VpcNetworkActions",
             "Effect": "Allow",
             "Action": [
                 "ec2:DeleteNetworkAcl",
