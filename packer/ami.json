@@ -1,5 +1,8 @@
 {
-  "variables": {},
+  "variables": {
+    "subnet_id": null,
+    "vpc_id": null
+  },
   "builders": [
     {
       "type": "amazon-ebs",
@@ -9,8 +12,8 @@
       "region": "eu-west-1",
       "source_ami": "ami-b0c379c3",
       "ssh_username": "ubuntu",
-      "subnet_id": "subnet-179f5e73",
-      "vpc_id": "vpc-255a4440"
+      "subnet_id": "{{user `subnet_id`}}",
+      "vpc_id": "{{user `vpc_id`}}"
     }
   ],
   "provisioners": [
