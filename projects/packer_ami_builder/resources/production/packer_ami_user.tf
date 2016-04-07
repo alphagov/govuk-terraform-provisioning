@@ -37,3 +37,28 @@ resource "aws_iam_policy_attachment" "ami_builder_attachment" {
     groups = ["${aws_iam_group.ami_builders_group.name}"]
     policy_arn = "${aws_iam_policy.ami_builder_policy.arn}"
 }
+
+resource "aws_iam_instance_profile" "ami_builder_profile" {
+    name = "VPCLockDown"
+    roles = ["${aws_iam_role.ami_builder_role.name}"]
+}
+
+resource "aws_iam_role" "ami_builder_role" {
+    # See: https://blogs.aws.amazon.com/security/post/Tx1ZU3LW4LLPQY2/How-to-Help-Lock-Down-a-User-s-Amazon-EC2-Capabilities-to-a-Single-VPC
+    name = "VPCLockDown"
+    assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
