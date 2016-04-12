@@ -15,12 +15,12 @@ resource "aws_iam_user" "deanwilson_user" {
     name = "deanwilson"
 }
 
-resource "aws_iam_user" "lauramartin_user" {
-    name = "lauramartin"
+resource "aws_iam_user" "jonauman" {
+    name = "jonauman"
 }
 
-resource "aws_iam_user" "mattbostock_user" {
-    name = "mattbostock"
+resource "aws_iam_user" "lauramartin_user" {
+    name = "lauramartin"
 }
 
 
