@@ -121,6 +121,18 @@ task apply: [:configure_state] do
 end
 
 
+desc 'Destroy the terraform resources'
+task destroy: [:configure_state] do
+  tmp_dir = _flatten_project
+
+  puts "terraform destroy -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}"
+
+  system("terraform destroy -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
+
+  FileUtils.rm_r tmp_dir
+end
+
+
 desc 'Show the plan'
 task plan: [:configure_state] do
   tmp_dir = _flatten_project
