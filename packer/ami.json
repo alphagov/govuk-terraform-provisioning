@@ -6,6 +6,7 @@
   "builders": [
     {
       "type": "amazon-ebs",
+      "ami_groups": ["all"],
       "ami_name": "govuk-trusty-1404-{{isotime \"2006-01-02T1504\"}}",
       "iam_instance_profile": "VPCLockDown",
       "instance_type": "t2.micro",
