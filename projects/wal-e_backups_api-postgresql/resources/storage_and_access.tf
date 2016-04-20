@@ -1,5 +1,5 @@
-module "paired_user" {
-    source = "../../../modules/paired_user"
+module "private_s3_bucket" {
+    source = "../../../modules/private_s3_bucket"
 
     bucket_name = "govuk-wal-e_backups_api-postgresql"
     environment = "${var.environment}"
