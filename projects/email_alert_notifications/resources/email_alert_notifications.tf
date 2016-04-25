@@ -50,4 +50,18 @@ resource "aws_lambda_function" "rename_email_files_with_request_id"{
   source_code_hash = "${base64sha256(file("rename_email_files_with_request_id.zip"))}"
 }
 
+resource "aws_lambda_permission" "allow_email_alert_inbox_bucket" {
+    statement_id = "AllowExecutionFromS3Bucket"
+    action = "lambda:InvokeFunction"
+    function_name = "${aws_lambda_function.rename_email_files_with_request_id.arn}"
+    principal = "s3.amazonaws.com"
+    source_arn = "${aws_s3_bucket.email_alert_inbox_bucket.arn}"
+}
 
+resource "aws_s3_bucket_notification" "email_alert_inbox_bucket_notification" {
+    bucket = "${aws_s3_bucket.email_alert_inbox_bucket.id}"
+    lambda_function {
+      lambda_function_arn = "${aws_lambda_function.rename_email_files_with_request_id.arn}"
+      events = ["s3:ObjectCreated:Put"]
+    }
+}
