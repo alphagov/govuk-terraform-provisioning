@@ -1,8 +1,8 @@
 module "private_s3_bucket" {
     source = "../../../modules/private_s3_bucket"
 
-    bucket_name = "govuk-wal-e_backups_postgresql"
+    bucket_name = "govuk-wal-e-backups-postgresql"
     environment = "${var.environment}"
     team        = "Infrastructure"
-    username    = "govuk-wal-e_backups_postgresql"
+    username    = "govuk-wal-e-backups-postgresql"
 }
