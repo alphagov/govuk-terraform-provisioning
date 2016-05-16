@@ -14,6 +14,11 @@ variable "username" {
     type = "string"
 }
 
+variable "versioning" {
+    type = "string"
+    default = "false"
+}
+
 
 resource "template_file" "readwrite_policy_file" {
   template = "${file("${path.module}/templates/readwrite_policy.tpl")}"
@@ -32,6 +37,10 @@ resource "aws_s3_bucket" "bucket" {
     tags {
         Environment = "${var.environment}"
         Team = "${var.team}"
+    }
+
+    versioning {
+        enabled = "${var.versioning}"
     }
 }
 
