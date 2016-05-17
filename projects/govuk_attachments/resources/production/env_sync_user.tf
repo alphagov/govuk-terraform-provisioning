@@ -1,11 +1,14 @@
-resource "aws_iam_user" "env_sync" {
-    name = "govuk-attachments-env-sync"
+resource "aws_iam_user" "env_sync_staging" {
+    name = "govuk-attachments-env-sync-to-staging"
 }
 
+resource "aws_iam_user" "env_sync_integration" {
+    name = "govuk-attachments-env-sync-to-integration"
+}
 
-resource "aws_iam_user_policy" "env-sync-policy" {
+resource "aws_iam_policy" "env_sync_policy" {
     name = "govuk-attachments_env-sync-policy"
-    user = "${aws_iam_user.env_sync.name}"
+    description = "Allows read-only access to Production bucket for environment sync"
     policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -23,4 +26,13 @@ resource "aws_iam_user_policy" "env-sync-policy" {
   ]
 }
 EOF
+}
+
+resource "aws_iam_policy_attachment" "env_sync_policy_attachment" {
+    name = "env_sync_policy_attachment"
+    users = [
+        "${aws_iam_user.env_sync_staging.name}",
+        "${aws_iam_user.env_sync_integration.name}",
+    ]
+    policy_arn = "${aws_iam_policy.env_sync_policy.arn}"
 }
