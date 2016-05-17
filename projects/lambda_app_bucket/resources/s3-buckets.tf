@@ -5,4 +5,5 @@ module "lambda_app_bucket" {
     environment = "${var.environment}"
     team        = "Infrastructure"
     username    = "govuk-lambda-applications"
+    versioning  = "true"
 }
