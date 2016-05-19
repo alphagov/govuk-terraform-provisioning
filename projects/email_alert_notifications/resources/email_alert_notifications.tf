@@ -2,11 +2,21 @@ variable "s3_bucket_name" {
   default = "govuk-email-alert-notifications"
 }
 
+variable "environment"{
+}
+
+variable "rename_email_files_with_request_id_version"{
+}
+
+variable "lambda_bucket"{
+  default = "govuk-lambda-applications"
+}
+
 resource "template_file" "s3_bucket_policy" {
   template = "${file("templates/email_alert_s3_bucket_policy.json")}"
   vars {
     account_id = "${element(split(":", aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.arn), 4)}"
-    bucket_name = "${var.s3_bucket_name}"
+    bucket_name = "${var.s3_bucket_name}-${var.environment}"
     lambda_role = "${aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.arn}"
   }
 }
@@ -19,13 +29,13 @@ resource "template_file" "put_and_delete_to_email_alert_bucket_policy" {
 }
 
 resource "aws_s3_bucket" "email_alert_inbox_bucket" {
-  bucket = "${var.s3_bucket_name}"
+  bucket = "${var.s3_bucket_name}-${var.environment}"
   acl = "public-read"
   policy = "${template_file.s3_bucket_policy.rendered}"
 }
 
 resource "aws_iam_role" "lambda_execute_and_write_to_email_alert_bucket" {
-  name = "lambda_execute_and_write_to_email_alert_bucket" 
+  name = "lambda_execute_and_write_to_email_alert_bucket"
   assume_role_policy = "${file("templates/lambda_assume_role_policy.json")}"
 }
 
@@ -42,12 +52,13 @@ resource "aws_iam_role_policy" "write_to_logs" {
 }
 
 resource "aws_lambda_function" "rename_email_files_with_request_id"{
-  filename = "rename_email_files_with_request_id.zip"
+  s3_bucket = "${var.lambda_bucket}-${var.environment}"
+  s3_key="rename_email_files_with_request_id.zip"
+  s3_object_version="${var.rename_email_files_with_request_id_version}"
   function_name = "rename_email_files_with_request_id"
   role = "${aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.arn}"
   handler = "rename_email_files_with_request_id.lambda_handler"
   runtime = "python2.7"
-  source_code_hash = "${base64sha256(file("rename_email_files_with_request_id.zip"))}"
 }
 
 resource "aws_lambda_permission" "allow_email_alert_inbox_bucket" {
