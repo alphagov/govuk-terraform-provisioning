@@ -16,7 +16,7 @@ variable "lambda_bucket"{
 }
 
 resource "template_file" "s3_bucket_policy" {
-  template = "${file("templates/email_alert_s3_bucket_policy.json")}"
+  template = "${file("templates/email_alert_notifications/email_alert_s3_bucket_policy.json")}"
   vars {
     account_id = "${element(split(":", aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.arn), 4)}"
     bucket_name = "${var.s3_bucket_name}-${var.environment}"
@@ -25,7 +25,7 @@ resource "template_file" "s3_bucket_policy" {
 }
 
 resource "template_file" "put_and_delete_to_email_alert_bucket_policy" {
-  template = "${file("templates/put_and_delete_to_s3_policy.json")}"
+  template = "${file("templates/email_alert_notifications/put_and_delete_to_s3_policy.json")}"
   vars {
     resource_arn = "${aws_s3_bucket.email_alert_inbox_bucket.arn}"
   }
@@ -39,7 +39,7 @@ resource "aws_s3_bucket" "email_alert_inbox_bucket" {
 
 resource "aws_iam_role" "lambda_execute_and_write_to_email_alert_bucket" {
   name = "lambda_execute_and_write_to_email_alert_bucket"
-  assume_role_policy = "${file("templates/lambda_assume_role_policy.json")}"
+  assume_role_policy = "${file("templates/email_alert_notifications/lambda_assume_role_policy.json")}"
 }
 
 resource "aws_iam_role_policy" "put_and_delete_to_email_alert_bucket" {
