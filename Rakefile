@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'rspec/core/rake_task'
 require 'tmpdir'
+require 'aws-sdk-resources'
 
 PROJECT_DIR = 'projects'
 
@@ -110,7 +111,7 @@ end
 
 
 desc 'Apply the terraform resources'
-task apply: [:configure_state] do
+task apply: [:configure_state, :latest_version_id] do
   tmp_dir = _flatten_project
 
   puts "terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}"
@@ -118,6 +119,23 @@ task apply: [:configure_state] do
   system("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
   FileUtils.rm_r tmp_dir
+end
+
+
+desc 'Latest Lambda version ID'
+task :latest_version_id do
+  lambda_filename = ENV['TF_VAR_LAMBDA_FILENAME']
+  target_file = "#{project_name}/#{lambda_filename}"
+  if lambda_filename
+    s3 = Aws::S3::Resource.new(region: 'eu-west-1')
+    bucket = s3.bucket("govuk-lambda-applications-#{deploy_env}")
+    begin
+      version_id = bucket.object(target_file).version_id
+    rescue Aws::S3::Errors::NotFound
+      abort "File not found: s3://govuk-lambda-applications-#{deploy_env}/#{target_file}"
+    end
+    ENV['TF_VAR_LAMBDA_VERSIONID'] = version_id
+  end
 end
 
 
@@ -134,7 +152,7 @@ end
 
 
 desc 'Show the plan'
-task plan: [:configure_state] do
+task plan: [:configure_state, :latest_version_id] do
   tmp_dir = _flatten_project
 
   system("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")

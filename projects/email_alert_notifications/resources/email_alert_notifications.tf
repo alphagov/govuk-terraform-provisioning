@@ -5,7 +5,10 @@ variable "s3_bucket_name" {
 variable "environment"{
 }
 
-variable "rename_email_files_with_request_id_version"{
+variable "LAMBDA_FILENAME"{
+}
+
+variable "LAMBDA_VERSIONID"{
 }
 
 variable "lambda_bucket"{
@@ -48,13 +51,13 @@ resource "aws_iam_role_policy" "put_and_delete_to_email_alert_bucket" {
 resource "aws_iam_role_policy" "write_to_logs" {
   name = "write_to_logs"
   role = "${aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.id}"
-  policy = "${file("templates/write_to_logs_policy.json")}"
+  policy = "${file("templates/email_alert_notifications/write_to_logs_policy.json")}"
 }
 
 resource "aws_lambda_function" "rename_email_files_with_request_id"{
   s3_bucket = "${var.lambda_bucket}-${var.environment}"
-  s3_key="rename_email_files_with_request_id.zip"
-  s3_object_version="${var.rename_email_files_with_request_id_version}"
+  s3_key="${var.LAMBDA_FILENAME}"
+  s3_object_version="${var.LAMBDA_VERSIONID}"
   function_name = "rename_email_files_with_request_id"
   role = "${aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.arn}"
   handler = "rename_email_files_with_request_id.lambda_handler"
