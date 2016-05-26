@@ -165,7 +165,17 @@ def _flatten_project
 
     puts "Working on #{Dir[dir + '/*.tf']}" if debug
     system("terraform get #{dir}")
-    FileUtils.cp( Dir["#{dir}/*.tf"], tmp_dir)
+    FileUtils.cp(Dir["#{dir}/*.tf"], tmp_dir)
+
+    # this has a small chance of overwriting a file if both resources/ and resources/$env
+    # have the same file
+    ['files', 'templates'].each do |subdir|
+      if File.directory? "#{dir}/#{subdir}/"
+        FileUtils.mkdir "#{tmp_dir}/#{subdir}"
+
+        FileUtils.cp(Dir["#{dir}/#{subdir}/*"], "#{tmp_dir}/#{subdir}/")
+      end
+    end
   end
 
   tmp_dir
