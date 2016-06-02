@@ -97,15 +97,15 @@ task configure_s3_state: [:validate_environment, :purge_remote_state] do
   args << "-backend-config='key=#{key_name}'"
   args << "-backend-config='region=#{region}'"
 
-  system(args.join(' ')) or raise 'Error running Terraform to configure state'
+  _run_system_command(args.join(' '))
 end
 
 
 desc 'create and display the resource graph'
 task graph: [:configure_state] do
   tmp_dir = _flatten_project
-  system("terraform graph #{tmp_dir} | dot -Tpng > graph.png")
-  system('open graph.png')
+  _run_system_command("terraform graph #{tmp_dir} | dot -Tpng > graph.png")
+  _run_system_command('open graph.png')
   FileUtils.rm_r tmp_dir
 end
 
@@ -116,7 +116,7 @@ task apply: [:configure_state, :latest_version_id] do
 
   puts "terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}"
 
-  system("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
+  _run_system_command("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
   FileUtils.rm_r tmp_dir
 end
@@ -145,7 +145,7 @@ task destroy: [:configure_state] do
 
   puts "terraform destroy -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}"
 
-  system("terraform destroy -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
+  _run_system_command("terraform destroy -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
   FileUtils.rm_r tmp_dir
 end
@@ -155,7 +155,7 @@ desc 'Show the plan'
 task plan: [:configure_state, :latest_version_id] do
   tmp_dir = _flatten_project
 
-  system("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
+  _run_system_command("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
   FileUtils.rm_r tmp_dir
 end
@@ -165,8 +165,8 @@ desc 'Bootstrap a project from local configuration to a clean bucket'
 task :bootstrap do
   tmp_dir = _flatten_project
 
-  system("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
-  system("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
+  _run_system_command("terraform plan -module-depth=-1 -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
+  _run_system_command("terraform apply -var-file=variables/#{deploy_env}.tfvars #{tmp_dir}")
 
   Rake::Task['configure_s3_state'].invoke
 
@@ -182,11 +182,20 @@ def _flatten_project
     next if Dir["#{dir}/*.tf"].empty?
 
     puts "Working on #{Dir[dir + '/*.tf']}" if debug
-    system("terraform get #{dir}")
+    _run_system_command("terraform get #{dir}")
     FileUtils.cp( Dir["#{dir}/*.tf"], tmp_dir)
   end
 
   tmp_dir
+end
+
+def _run_system_command(command)
+  system(command)
+  exit_code = $?.exitstatus
+
+  if exit_code != 0
+    raise "Running '#{command}' failed with code #{exit_code}"
+  end
 end
 
 def deploy_env
