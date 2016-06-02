@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:getObject",
+        "s3:putObject",
+        "s3:deleteObject",
+        "s3:putObjectAcl"
+      ],
+      "Effect": "Allow",
+      "Resource": "${resource_arn}"
+    }
+  ]
+}
