@@ -1,5 +1,5 @@
 module "lambda_app_bucket" {
-    source = "../../../modules/private_s3_bucket"
+    source = "../../../modules/paired_user"
 
     bucket_name = "govuk-lambda-applications"
     environment = "${var.environment}"
