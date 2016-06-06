@@ -5,6 +5,15 @@ require 'aws-sdk-resources'
 
 PROJECT_DIR = 'projects'
 
+# Make sure that the version of Terraform we're using is new enough
+current_terraform_version = Gem::Version.new(`terraform version`.split("\n").first.split(' ')[1].gsub('v', ''))
+minimum_terraform_version = Gem::Version.new(File.read('.terraform-version').strip)
+if current_terraform_version < minimum_terraform_version
+  puts 'Terraform is not up to date enough.'
+  puts "v#{current_terraform_version} installed, v#{minimum_terraform_version} required."
+  exit 1
+end
+
 desc 'Validate the environment name'
 task :validate_environment do
   allowed_envs = %w(test staging integration production)
