@@ -31,6 +31,12 @@ resource "template_file" "put_and_delete_to_email_alert_bucket_policy" {
   }
 }
 
+resource "template_file" "read_from_lambda_bucket_policy" {
+  template = "${file("projects/email_alert_notifications/templates/read_from_lambda_bucket_policy.json")}"
+  # vars {
+  # }
+}
+
 resource "aws_s3_bucket" "email_alert_inbox_bucket" {
   bucket = "${var.s3_bucket_name}-${var.environment}"
   acl = "public-read"
@@ -40,6 +46,12 @@ resource "aws_s3_bucket" "email_alert_inbox_bucket" {
 resource "aws_iam_role" "lambda_execute_and_write_to_email_alert_bucket" {
   name = "lambda_execute_and_write_to_email_alert_bucket"
   assume_role_policy = "${file("projects/email_alert_notifications/templates/lambda_assume_role_policy.json")}"
+}
+
+resource "aws_iam_role_policy" "read_from_lambda_bucket" {
+  name = "read_from_lambda_bucket"
+  role = "${aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.id}"
+  policy = "${template_file.read_from_lambda_bucket_policy.rendered}"
 }
 
 resource "aws_iam_role_policy" "put_and_delete_to_email_alert_bucket" {
