@@ -56,7 +56,7 @@ resource "aws_iam_role_policy" "write_to_logs" {
 
 resource "aws_lambda_function" "rename_email_files_with_request_id"{
   s3_bucket = "${var.lambda_bucket}-${var.environment}"
-  s3_key="${var.LAMBDA_FILENAME}"
+  s3_key="email_alert_notifications/${var.LAMBDA_FILENAME}"
   s3_object_version="${var.LAMBDA_VERSIONID}"
   function_name = "rename_email_files_with_request_id"
   role = "${aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.arn}"
