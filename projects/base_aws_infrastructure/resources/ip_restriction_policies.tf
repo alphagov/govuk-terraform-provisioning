@@ -8,15 +8,25 @@ resource "aws_iam_policy" "require_office_ip" {
   policy = <<EOT
 {
   "Version": "2012-10-17",
-  "Statement": {
-    "Effect": "Deny",
-    "Action": "*",
-    "Resource": "*",
-    "Condition": {"NotIpAddress": {"aws:SourceIp": [
-      ${join(",", formatlist("\"%s\"", split(",", var.office_cidrs)))},
-      ${join(",", formatlist("\"%s\"", split(",", var.environment_cidrs)))}
-    ]}}
-  }
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {"ArnLike": {
+        "aws:SourceArn": "arn:aws:lambda:*:${var.account_id}:*"
+        }
+      }
+    },
+    {
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {"NotIpAddress": {"aws:SourceIp": [
+        ${join(",", formatlist("\"%s\"", split(",", var.office_cidrs)))},
+        ${join(",", formatlist("\"%s\"", split(",", var.environment_cidrs)))}
+      ]}}
+    }]
 }
 EOT
 }
