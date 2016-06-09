@@ -15,7 +15,11 @@ resource "aws_iam_policy" "require_office_ip" {
     "Condition": {"NotIpAddress": {"aws:SourceIp": [
       ${join(",", formatlist("\"%s\"", split(",", var.office_cidrs)))},
       ${join(",", formatlist("\"%s\"", split(",", var.environment_cidrs)))}
-    ]}}
+    ]},
+      "ArnNotLike": {
+        "aws:SourceArn": "arn:aws:lambda:${var.aws_default_region}:${var.account_id}:*"
+      }
+    }
   }
 }
 EOT
