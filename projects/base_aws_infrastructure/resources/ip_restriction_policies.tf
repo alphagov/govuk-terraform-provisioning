@@ -13,6 +13,7 @@ resource "aws_iam_policy" "require_office_ip" {
     "Action": "*",
     "Resource": "*",
     "Condition": {"NotIpAddress": {"aws:SourceIp": [
+      ${join(",", formatlist("\"%s\"", split(",", var.aws_ip_address_ranges)))},
       ${join(",", formatlist("\"%s\"", split(",", var.office_cidrs)))},
       ${join(",", formatlist("\"%s\"", split(",", var.environment_cidrs)))}
     ]}}
