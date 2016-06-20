@@ -48,10 +48,10 @@ resource "aws_iam_role_policy" "put_and_delete_to_email_alert_bucket" {
   policy = "${template_file.put_and_delete_to_email_alert_bucket_policy.rendered}"
 }
 
-resource "aws_iam_role_policy" "write_to_logs" {
-  name = "write_to_logs"
+resource "aws_iam_role_policy" "email_alerts_write_to_logs" {
+  name = "email_alerts_write_to_logs"
   role = "${aws_iam_role.lambda_execute_and_write_to_email_alert_bucket.id}"
-  policy = "${file("projects/email_alert_notifications/templates/write_to_logs_policy.json")}"
+  policy = "${file("projects/email_alert_notifications/templates/email_alerts_write_to_logs_policy.json")}"
 }
 
 resource "aws_lambda_function" "rename_email_files_with_request_id"{
