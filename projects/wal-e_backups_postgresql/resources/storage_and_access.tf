@@ -5,4 +5,5 @@ module "private_s3_bucket" {
     environment = "${var.environment}"
     team        = "Infrastructure"
     username    = "govuk-wal-e-backups-postgresql"
+    lifecycle   = "true"
 }

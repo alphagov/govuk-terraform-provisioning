@@ -5,4 +5,5 @@ module "private_s3_bucket" {
     environment = "${var.environment}"
     team        = "Infrastructure"
     username    = "govuk-mysql-xtrabackups"
+    lifecycle   = "true"
 }
