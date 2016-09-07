@@ -46,6 +46,10 @@ resource "aws_s3_bucket" "govuk-mongodb-backup-s3" {
         prefix = ""
         enabled = true
 
+        expiration {
+            days = 7
+        }
+
         noncurrent_version_expiration {
             days = 7
         }
@@ -70,16 +74,16 @@ resource "aws_s3_bucket" "govuk-mongodb-backup-s3-daily" {
         prefix = ""
         enabled = true
 
-        noncurrent_version_transition {
+        transition {
             days = 30
             storage_class = "STANDARD_IA"
         }
-        noncurrent_version_transition {
+        transition {
             days = 60
             storage_class = "GLACIER"
         }
-        noncurrent_version_expiration {
-            days = 90
+        expiration {
+            days = 365
         }
     }
 }
