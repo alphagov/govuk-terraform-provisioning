@@ -10,8 +10,8 @@
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::${bucket_name}-${environment}",
-        "arn:aws:s3:::${bucket_name}-logs-${environment}"
+        "arn:aws:s3:::${bucket_name}-api-elasticserach-${environment}",
+        "arn:aws:s3:::${bucket_name}-logs-elasticsearch-${environment}"
       ]
     },
     {
@@ -26,8 +26,8 @@
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::${bucket_name}-${environment}/*",
-        "arn:aws:s3:::${bucket_name}-logs-${environment}/*"
+        "arn:aws:s3:::${bucket_name}-api-elasticserach-${environment}/*",
+        "arn:aws:s3:::${bucket_name}-logs-elasticsearch-${environment}/*"
       ]
     }
   ]
