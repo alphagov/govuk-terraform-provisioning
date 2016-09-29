@@ -1,6 +1,6 @@
 variable "bucket_name" {
   type = "string"
-  default = "govuk-elasticsearch"
+  default = "govuk"
 }
 
 variable "team" {
@@ -28,8 +28,8 @@ resource "template_file" "readwrite_policy_file" {
   }
 }
 
-resource "aws_s3_bucket" "govuk-elasticsearch" {
-  bucket = "${var.bucket_name}-${var.environment}"
+resource "aws_s3_bucket" "govuk-api-elasticsearch" {
+  bucket = "${var.bucket_name}-api-elasticsearch-${var.environment}"
 
   tags {
     Environment = "${var.environment}"
@@ -55,8 +55,8 @@ resource "aws_s3_bucket" "govuk-elasticsearch" {
   }
 }
 
-resource "aws_s3_bucket" "govuk-elasticsearch-logs" {
-  bucket = "${var.bucket_name}-logs-${var.environment}"
+resource "aws_s3_bucket" "govuk-logs-elasticsearch" {
+  bucket = "${var.bucket_name}-logs-elasticsearch-${var.environment}"
 
   tags {
     Environment = "${var.environment}"
