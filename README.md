@@ -55,6 +55,12 @@ bundle exec rake apply
 bundle exec rake graph
 ```
 
+# Project Directories
+
+The projects located in `old-projects` were built with Terraform `0.6` and are being left as-is until
+we have a need to update them. All new projects should work with at least Terraform `0.7` and be located in
+`projects`
+
 # Creating a fresh environment in AWS
 
 Please note this is still experimental.
