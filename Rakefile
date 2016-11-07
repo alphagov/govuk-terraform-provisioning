@@ -16,7 +16,7 @@ if current_terraform_version < minimum_terraform_version
   exit 1
 elsif current_terraform_version > maximum_terraform_version
   puts 'Terraform is too new.'
-  puts 'We do not support terraform 0.7.x and above'
+  puts 'We do not support terraform #{maximum_terraform_version} and above'
   exit 1
 end
 
@@ -197,10 +197,10 @@ def _flatten_project
     next if Dir["#{dir}/*.tf"].empty?
 
     puts "Working on #{Dir[dir + '/*.tf']}" if debug
-    _run_system_command("terraform get #{dir}")
     FileUtils.cp( Dir["#{dir}/*.tf"], tmp_dir)
   end
 
+  _run_system_command("terraform get #{tmp_dir}")
   tmp_dir
 end
 
