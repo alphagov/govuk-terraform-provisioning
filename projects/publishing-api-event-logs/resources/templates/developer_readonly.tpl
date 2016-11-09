@@ -3,6 +3,16 @@
   "Statement": [
     {
       "Action": [
+        "s3:GetBucketLocation",
+        "s3:ListAllMyBuckets"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::*"
+      ]
+    },
+    {
+      "Action": [
         "s3:ListBucket",
         "s3:GetBucketLocation",
         "s3:ListBucketMultipartUploads",
