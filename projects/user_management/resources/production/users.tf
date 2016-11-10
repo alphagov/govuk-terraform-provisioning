@@ -5,25 +5,25 @@
 
 resource "aws_iam_user" "brendanbutler" {
     name = "brendanbutler"
-    path = "/user/"
+    path = "/users/"
 }
 
 resource "aws_iam_user" "danielroseman" {
     name = "danielroseman"
-    path = "/user/"
+    path = "/users/"
 }
 
 resource "aws_iam_user" "jennyduckett" {
     name = "jennyduckett"
-    path = "/user/"
+    path = "/users/"
 }
 
 resource "aws_iam_user" "kevindew" {
     name = "kevindew"
-    path = "/user/"
+    path = "/users/"
 }
 
 resource "aws_iam_user" "simonhughesdon" {
     name = "simonhughesdon"
-    path = "/user/"
+    path = "/users/"
 }
