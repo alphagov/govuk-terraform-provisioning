@@ -13,6 +13,11 @@ resource "aws_iam_group" "publishing_platform" {
     path = "/groups/"
 }
 
+resource "aws_iam_group" "infrastructure_team" {
+    name = "infrastructure_team"
+    path = "/groups/"
+}
+
 resource "aws_iam_policy_attachment" "base-user-console-access_user_attachment" {
     name = "base-user-console-access_user_attachment_policy"
     groups = [
@@ -20,6 +25,29 @@ resource "aws_iam_policy_attachment" "base-user-console-access_user_attachment" 
       "${aws_iam_group.publishing_platform.name}"
     ]
     policy_arn = "${aws_iam_policy.base-user-console-access.arn}"
+}
+
+resource "aws_iam_policy" "infrastructure_team_policy" {
+    name = "infrastructure_team_policy"
+    description = "Admin policy: full access"
+    policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy_attachment" "infrastructure_team_attachment" {
+    name = "infrastructure_team_policy_attachment"
+    groups = ["${aws_iam_group.infrastructure_team.name}"]
+    policy_arn = "${aws_iam_policy.infrastructure_team_policy.arn}"
 }
 
 
