@@ -33,6 +33,11 @@ resource "aws_iam_user" "kevindew" {
     path = "/users/"
 }
 
+resource "aws_iam_user" "samcook" {
+    name = "samcook"
+    path = "/users/"
+}
+
 resource "aws_iam_user" "simonhughesdon" {
     name = "simonhughesdon"
     path = "/users/"
