@@ -35,7 +35,7 @@ task :validate_environment do
   end
 
   unless ENV.include?('TF_VAR_account_id')
-    warn 'Please set the "TF_VAR_account_id" environment variable.'
+    warn 'Please set the "TF_VAR_account_id" environment variable to the name of the aws account i.e. "govuk-infrastructure-integration".'
     exit 1
   end
 
