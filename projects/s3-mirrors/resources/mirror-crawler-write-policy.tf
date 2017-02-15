@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "s3_mirror_writer_policy_doc" {
+data "aws_iam_policy_document" "s3_mirror_crawler_writer_policy_doc" {
   statement {
     sid = "S3SyncReadLists"
     actions = [
@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "s3_mirror_writer_policy_doc" {
 
 resource "aws_iam_policy" "s3_mirror_writer_policy" {
   name = "s3_mirror_writer_policy_for_${aws_s3_bucket.govuk_mirror.id}"
-  policy = "${data.aws_iam_policy_document.s3_mirror_writer_policy_doc.json}"
+  policy = "${data.aws_iam_policy_document.s3_mirror_crawler_writer_policy_doc.json}"
 }
 
 resource "aws_iam_user" "s3_mirror_writer_user" {
