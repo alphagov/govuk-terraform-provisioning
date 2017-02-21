@@ -15,5 +15,11 @@ data "aws_iam_policy_document" "s3_mirror_fastly_read_policy_doc" {
       variable = "aws:SourceIp"
       values = ["${data.fastly_ip_ranges.fastly.cidr_blocks}"]
     }
+
+    # Apparently bucket policies must have a principal
+    principals {
+      type = "AWS"
+      identifiers = ["*"]
+    }
   }
 }
