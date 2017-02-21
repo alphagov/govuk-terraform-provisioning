@@ -15,6 +15,7 @@ data "aws_iam_policy_document" "s3_mirror_crawler_writer_policy_doc" {
     actions = ["s3:*"]
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.govuk_mirror.id}",
+      "arn:aws:s3:::${aws_s3_bucket.govuk_mirror.id}/*",
     ]
   }
 }
