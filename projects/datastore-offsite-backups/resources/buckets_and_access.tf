@@ -6,23 +6,6 @@ resource "aws_s3_bucket" "govuk-offsite-backups" {
     Team = "${var.team}"
   }
 
-  versioning {
-    enabled = true
-  }
-
-  lifecycle_rule {
-    prefix = ""
-    enabled = true
-
-    expiration {
-      days = 1
-    }
-
-    noncurrent_version_transition {
-      days = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
 }
 
 data "template_file" "read_write_user" {
