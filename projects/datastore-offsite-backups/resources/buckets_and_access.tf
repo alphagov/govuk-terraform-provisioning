@@ -23,7 +23,7 @@ resource "aws_iam_policy" "read_write_user" {
 }
 
 resource "aws_iam_policy_attachment" "govuk-offsite-backups" {
-  name = "${var.bucket_name}_govuk_offsite_backups_attachment_polocy"
+  name = "${var.bucket_name}_govuk_offsite_backups_attachment_policy"
   users = ["${aws_iam_user.iam_user.name}"]
   policy_arn = "${aws_iam_policy.read_write_user.arn}"
 }
