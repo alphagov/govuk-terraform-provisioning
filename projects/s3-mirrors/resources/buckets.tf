@@ -1,3 +1,8 @@
+resource "aws_s3_bucket" "govuk_mirror_access_logs" {
+  bucket = "govuk-mirror-${var.environment}-access-logs"
+  acl    = "log-delivery-write"
+}
+
 resource "aws_s3_bucket" "govuk_mirror" {
   bucket = "govuk-mirror-${var.environment}"
 
@@ -8,6 +13,11 @@ resource "aws_s3_bucket" "govuk_mirror" {
 
   versioning {
     enabled = true
+  }
+
+  logging {
+    target_bucket = "${aws_s3_bucket.govuk_mirror_access_logs.id}"
+    target_prefix = "log/"
   }
 }
 
