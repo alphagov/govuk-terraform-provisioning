@@ -28,6 +28,11 @@ resource "aws_iam_user" "deborahchua" {
     path = "/users/"
 }
 
+resource "aws_iam_user" "grahampengelly" {
+    name = "grahampengelly"
+    path = "/users/"
+}
+
 resource "aws_iam_user" "jennyduckett" {
     name = "jennyduckett"
     path = "/users/"
@@ -35,6 +40,11 @@ resource "aws_iam_user" "jennyduckett" {
 
 resource "aws_iam_user" "kevindew" {
     name = "kevindew"
+    path = "/users/"
+}
+
+resource "aws_iam_user" "rubenarakelyan" {
+    name = "rubenarakelyan"
     path = "/users/"
 }
 
