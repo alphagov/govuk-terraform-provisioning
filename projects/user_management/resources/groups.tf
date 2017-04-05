@@ -13,6 +13,11 @@ resource "aws_iam_group" "publishing_platform" {
     path = "/groups/"
 }
 
+resource "aws_iam_group" "training_platform" {
+    name = "training_platform"
+    path = "/groups/"
+}
+
 resource "aws_iam_group" "infrastructure_team" {
     name = "infrastructure_team"
     path = "/groups/"
@@ -22,7 +27,8 @@ resource "aws_iam_policy_attachment" "base-user-console-access_user_attachment" 
     name = "base-user-console-access_user_attachment_policy"
     groups = [
       "${aws_iam_group.custom_formats.name}",
-      "${aws_iam_group.publishing_platform.name}"
+      "${aws_iam_group.publishing_platform.name}",
+      "${aws_iam_group.training_platform.name}"
     ]
     policy_arn = "${aws_iam_policy.base-user-console-access.arn}"
 }
