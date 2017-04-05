@@ -3,11 +3,6 @@
 #   In alphabetical order.
 #
 
-resource "aws_iam_user" "anafernandez" {
-    name = "anafernandez"
-    path = "/users/"
-}
-
 resource "aws_iam_user" "brendanbutler" {
     name = "brendanbutler"
     path = "/users/"
