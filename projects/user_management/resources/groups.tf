@@ -23,6 +23,11 @@ resource "aws_iam_group" "infrastructure_team" {
     path = "/groups/"
 }
 
+resource "aws_iam_group" "ci" {
+    name = "ci"
+    path = "/groups/"
+}
+
 resource "aws_iam_policy_attachment" "base-user-console-access_user_attachment" {
     name = "base-user-console-access_user_attachment_policy"
     groups = [
@@ -76,3 +81,35 @@ resource "aws_iam_policy" "base-user-console-access" {
     description = "base-user-console-access allows standard user tasks like create access key"
     policy = "${data.template_file.base-user-console-access.rendered}"
 }
+
+resource "aws_iam_policy" "ci_policy" {
+    name = "ci_policy"
+    description = "CI policy: lunch instances"
+    policy = <<EOF
+{
+   "Version": "2012-10-17",
+   "Statement": [{
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeInstances", "ec2:DescribeImages",
+        "ec2:DescribeKeyPairs","ec2:DescribeVpcs", "ec2:DescribeSubnets", 
+        "ec2:DescribeSecurityGroups"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ec2:RunInstances",
+      "Resource": "*"
+    }
+   ]
+}
+EOF
+}
+
+resource "aws_iam_policy_attachment" "ci_attachment" {
+    name = "ci_policy_attachment"
+    groups = ["${aws_iam_group.ci.name}"]
+    policy_arn = "${aws_iam_policy.ci_policy.arn}"
+}
+
