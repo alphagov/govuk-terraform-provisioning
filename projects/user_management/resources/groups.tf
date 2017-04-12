@@ -84,25 +84,30 @@ resource "aws_iam_policy" "base-user-console-access" {
 
 resource "aws_iam_policy" "ci_policy" {
     name = "ci_policy"
-    description = "CI policy: lunch instances"
+    description = "CI policy: launch instances, manage DNS entries"
     policy = <<EOF
 {
-   "Version": "2012-10-17",
-   "Statement": [{
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DescribeInstances", "ec2:DescribeImages",
-        "ec2:DescribeKeyPairs","ec2:DescribeVpcs", "ec2:DescribeSubnets", 
-        "ec2:DescribeSecurityGroups"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": "ec2:RunInstances",
-      "Resource": "*"
-    }
-   ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "ec2:*",
+                "iam:AddRoleToInstanceProfile",
+                "iam:PassRole",
+                "route53:*"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [ "s3:*" ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::govuk-terraform-state-integration",
+                "arn:aws:s3:::govuk-terraform-state-integration/*"
+            ]
+        }
+    ]
 }
 EOF
 }
