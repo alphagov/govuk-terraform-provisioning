@@ -97,3 +97,13 @@ output "public_security_group_ids" {
 #  key_name   = "${var.key_name}"
 #  public_key = "${file(var.public_key_path)}"
 #}
+
+# DNS zone
+resource "aws_route53_zone" "govuk-training_zone" {
+  name = "training.publishing.service.gov.uk."
+}
+
+output "route53_zone_id" {
+  value = "${aws_route53_zone.govuk-training_zone.zone_id}"
+}
+
