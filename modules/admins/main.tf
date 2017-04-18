@@ -19,10 +19,6 @@ resource "aws_iam_user" "lauramartin_user" {
     name = "lauramartin"
 }
 
-resource "aws_iam_user" "mikaelallison_user" {
-    name = "mikaelallison"
-}
-
 
 resource "aws_iam_group_membership" "infrastructure_membership" {
     name = "infrastructure-group-membership"
@@ -31,7 +27,6 @@ resource "aws_iam_group_membership" "infrastructure_membership" {
         "${aws_iam_user.bobwalker_user.name}",
         "${aws_iam_user.deanwilson_user.name}",
         "${aws_iam_user.lauramartin_user.name}",
-        "${aws_iam_user.mikaelallison_user.name}",
     ]
     group = "${aws_iam_group.infrastructure_group.name}"
 }
