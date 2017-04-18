@@ -197,7 +197,7 @@ def _flatten_project
     next if Dir["#{dir}/*.tf"].empty?
 
     puts "Working on #{Dir[dir + '/*.tf']}" if debug
-    FileUtils.cp( Dir["#{dir}/*.tf"], tmp_dir)
+    FileUtils.cp( Dir["#{dir}/*"], tmp_dir)
   end
 
   _run_system_command("terraform get #{tmp_dir}")
