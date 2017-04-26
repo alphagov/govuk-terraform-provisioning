@@ -196,8 +196,8 @@ def _flatten_project
   [ 'configs', base_path, "#{base_path}/#{deploy_env}" ].each do |dir|
     next if Dir["#{dir}/*.tf"].empty?
 
-    puts "Working on #{Dir[dir + '/*.tf']}" if debug
-    FileUtils.cp( Dir["#{dir}/*"], tmp_dir)
+    puts "Working on #{Dir[dir + '/*']}" if debug
+    FileUtils.cp_r( Dir["#{dir}/*"], tmp_dir)
   end
 
   _run_system_command("terraform get #{tmp_dir}")
