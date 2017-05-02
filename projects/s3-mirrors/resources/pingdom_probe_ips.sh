@@ -14,6 +14,6 @@
 curl -s https://my.pingdom.com/probes/feed | grep "pingdom:ip" | sed -e 's|</.*||' -e 's|.*>||' | sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4 | grep -v ":" | awk '
 BEGIN { ORS = ""; print " { \"pingdom_probe_ips\": \""}
 { if (NR == 1) { print $1"/32" } else { print ","$1"/32" } }
-END { print " \" }" }
+END { print "\" }" }
 '
 
