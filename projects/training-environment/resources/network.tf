@@ -75,7 +75,7 @@ resource "aws_security_group_rule" "govuk-training_aws_security_group_rule_in_22
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = ["31.210.245.102/32","80.194.77.90/32","85.133.67.244/32"]
+  cidr_blocks       = ["31.210.245.102/32","80.194.77.90/32","85.133.67.244/32","213.86.153.212/32","213.86.153.213/32","213.86.153.214/32","213.86.153.235/32","213.86.153.236/32","213.86.153.237/32"]
   security_group_id = "${aws_security_group.govuk-training_aws_security_group_public_base.id}"
 }
 
