@@ -16,7 +16,7 @@ if current_terraform_version < minimum_terraform_version
   exit 1
 elsif current_terraform_version > maximum_terraform_version
   puts 'Terraform is too new.'
-  puts 'We do not support terraform #{maximum_terraform_version} and above'
+  puts "We do not support terraform #{maximum_terraform_version} and above"
   exit 1
 end
 
