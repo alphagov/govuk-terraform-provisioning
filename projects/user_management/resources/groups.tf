@@ -38,6 +38,48 @@ resource "aws_iam_policy_attachment" "base-user-console-access_user_attachment" 
     policy_arn = "${aws_iam_policy.base-user-console-access.arn}"
 }
 
+resource "aws_iam_policy_attachment" "limit_access_to_office_ips_user_attachment" {
+    name = "base-user-console-access_user_attachment_policy"
+    groups = [
+      "${aws_iam_group.custom_formats.name}",
+      "${aws_iam_group.publishing_platform.name}",
+      "${aws_iam_group.training_platform.name}",
+      "${aws_iam_group.infrastructure_team.name}",
+    ]
+    policy_arn = "${aws_iam_policy.limit_access_to_office_ips.arn}"
+}
+
+resource "aws_iam_policy" "limit_access_to_office_ips" {
+    name = "infrastructure_team_policy"
+    description = "Admin policy: full access from the office IPs"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Deny",
+        "Action": "*",
+        "Resource": "*",
+        "Condition": {
+            "NotIpAddress": {
+                "aws:SourceIp": [
+                    "80.194.77.90/32",
+                    "80.194.77.100/32",
+                    "85.133.67.244/32",
+                    "31.210.245.86/32",
+                    "213.86.153.212/32",
+                    "213.86.153.213/32",
+                    "213.86.153.214/32",
+                    "213.86.153.235/32",
+                    "213.86.153.236/32",
+                    "213.86.153.237/32"
+                ]
+            }
+        }
+    }
+}
+EOF
+}
+
 resource "aws_iam_policy" "infrastructure_team_policy" {
     name = "infrastructure_team_policy"
     description = "Admin policy: full access"
