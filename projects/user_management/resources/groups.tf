@@ -50,7 +50,7 @@ resource "aws_iam_policy_attachment" "limit_access_to_office_ips_user_attachment
 }
 
 resource "aws_iam_policy" "limit_access_to_office_ips" {
-    name = "infrastructure_team_policy"
+    name = "infrastructure_limit_access_to_office_ips"
     description = "Admin policy: full access from the office IPs"
     policy = <<EOF
 {
