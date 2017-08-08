@@ -97,8 +97,9 @@ end
 
 desc 'Configure the remote state location'
 task configure_s3_state: [:validate_environment, :purge_remote_state] do
-  region      = 'eu-west-1'
-  bucket_name = "govuk-terraform-state-#{deploy_env}"
+  region = ENV.fetch('TERRAFORM_STATE_S3_BUCKET_REGION', 'eu-west-1')
+  bucket_name_prefix = ENV.fetch('TERRAFORM_STATE_S3_BUCKET_NAME_PREFIX', "govuk-terraform-state")
+  bucket_name = "#{bucket_name_prefix}-#{deploy_env}"
 
   # workaround until we can move everything in to project based layout
   key_name = project_name.empty? ? 'terraform.tfstate' : "terraform-#{project_name}.tfstate"

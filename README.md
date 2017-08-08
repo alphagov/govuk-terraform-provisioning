@@ -93,3 +93,14 @@ Please note this is still experimental.
    thing.
 
 7. You should now be able to run per project rake tasks as required.
+
+# Development
+
+If you don't have access to the GOV.UK S3 buckets which store Terraform state for the various environments, but you want to run the standard Rake tasks to plan/apply changes, you'll need to manually create an S3 bucket (with the appropriate environment suffix, e.g. "-test") and an IAM admin user and then set the following environment variables:
+
+    TERRAFORM_STATE_S3_BUCKET_REGION=<s3-bucket-region>
+    TERRAFORM_STATE_S3_BUCKET_NAME_PREFIX=<s3-bucket-name-prefix>
+
+Here's an example of running one of the Rake tasks assuming we have a bucket named "my-s3-bucket-test" in the "eu-west-2" region:
+
+    $ TERRAFORM_STATE_S3_BUCKET_REGION=eu-west-2 TERRAFORM_STATE_S3_BUCKET_NAME_PREFIX=my-s3-bucket  PROJECT_NAME=<project-name> DEPLOY_ENV=test bundle exec rake plan
