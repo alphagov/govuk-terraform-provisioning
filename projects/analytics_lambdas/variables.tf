@@ -1,5 +1,5 @@
-variable "s3_bucket" {
-  default = "govuk-analytics-logs-production"
+variable "s3_bucket_id" {
+  default = "arn:aws:s3:::govuk-analytics-logs-production"
 }
 variable "public_api_logs_prefix" {
   default = "public_api_logs/"
