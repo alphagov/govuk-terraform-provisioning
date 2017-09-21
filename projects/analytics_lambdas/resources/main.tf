@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "s3-access-ro" {
 
 resource "aws_iam_policy" "s3-access-ro" {
   name = "s3-access-ro"
-  path = "${var.public_api_logs_prefix}"
+  path = "/"
   policy = "${data.aws_iam_policy_document.s3-access-ro.json}"
 }
 
@@ -50,7 +50,8 @@ resource "aws_lambda_permission" "allow_bucket" {
 
 # AWS Lambda function
 resource "aws_lambda_function" "func" {
-  filename = "${var.lambda_artefact_name}"
+  s3_bucket = "${var.s3_bucket}"
+  s3_key = "${var.lambda_artefact_name}"
   function_name = "${var.lambda_function_name}"
   role = "${aws_iam_role.lambda_role.arn}"
   handler = "${var.lambda_handler}"
