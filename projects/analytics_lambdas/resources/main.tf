@@ -50,7 +50,7 @@ resource "aws_lambda_permission" "allow_bucket" {
 
 # AWS Lambda function
 resource "aws_lambda_function" "func" {
-  filename = "${lambda_artefact_name}"
+  filename = "${var.lambda_artefact_name}"
   function_name = "${var.lambda_function_name}"
   role = "${aws_iam_role.lambda_role.arn}"
   handler = "${var.lambda_handler}"
