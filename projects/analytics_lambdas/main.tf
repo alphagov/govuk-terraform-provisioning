@@ -26,6 +26,28 @@ resource "aws_iam_role" "lambda_role" {
 }
 EOF
 }
+data "aws_iam_policy_document" "s3-access-ro" {
+    statement {
+        actions = [
+            "s3:GetObject",
+            "s3:ListBucket",
+        ]
+        resources = [
+            "arn:aws:s3:::*",
+        ]
+    }
+}
+
+resource "aws_iam_policy" "s3-access-ro" {
+    name = "s3-access-ro"
+    path = "${var.public_api_logs_prefix}"
+    policy = "${data.aws_iam_policy_document.s3-access-ro.json}"
+}
+
+resource "aws_iam_role_policy_attachment" "s3-access-ro" {
+    role       = "${aws_iam_role.lamda_role.name}"
+    policy_arn = "${aws_iam_policy.s3-access-ro.arn}"
+}
 
 resource "aws_lambda_permission" "allow_bucket" {
   statement_id  = "AllowExecutionFromS3Bucket"
