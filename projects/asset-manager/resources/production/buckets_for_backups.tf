@@ -3,4 +3,8 @@ resource "aws_s3_bucket" "asset-manager-backup" {
   bucket = "${var.bucket_name}-backup-${var.environment}"
   acl = "private"
   region = "${var.aws_region_for_backups}"
+
+  versioning {
+    enabled = true
+  }
 }
