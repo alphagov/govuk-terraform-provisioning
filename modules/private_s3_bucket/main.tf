@@ -24,6 +24,11 @@ variable "lifecycle" {
     default = "false"
 }
 
+variable "days_to_keep" {
+    type    = "string"
+    default = 30
+}
+
 
 resource "template_file" "readwrite_policy_file" {
   template = "${file("${path.module}/templates/readwrite_policy.tpl")}"
@@ -52,16 +57,8 @@ resource "aws_s3_bucket" "bucket" {
         prefix = ""
         enabled = "${var.lifecycle}"
 
-        transition {
-            days = 30
-            storage_class = "STANDARD_IA"
-        }
-        transition {
-            days = 60
-            storage_class = "GLACIER"
-        }
         expiration {
-            days = 90
+            days = "${var.days_to_keep}"
         }
     }
 }
