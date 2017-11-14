@@ -3,6 +3,10 @@
 #   In alphabetical order.
 #
 
+resource "aws_iam_user" "2ndline" {
+    name = "2ndline"
+    path = "/users/"
+}
 resource "aws_iam_user" "brendanbutler" {
     name = "brendanbutler"
     path = "/users/"

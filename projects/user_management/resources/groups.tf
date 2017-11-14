@@ -3,6 +3,11 @@
 #   In alphabetical order.
 #
 
+resource "aws_iam_group" "2ndline" {
+    name = "2ndline"
+    path = "/groups/"
+}
+
 resource "aws_iam_group" "custom_formats" {
     name = "custom_formats"
     path = "/groups/"
@@ -41,6 +46,7 @@ resource "aws_iam_policy_attachment" "base-user-console-access_user_attachment" 
 resource "aws_iam_policy_attachment" "limit_access_to_office_ips_user_attachment" {
     name = "base-user-console-access_user_attachment_policy"
     groups = [
+      "${aws_iam_group.2ndline.name}",
       "${aws_iam_group.custom_formats.name}",
       "${aws_iam_group.publishing_platform.name}",
       "${aws_iam_group.training_platform.name}",
@@ -160,3 +166,28 @@ resource "aws_iam_policy_attachment" "ci_attachment" {
     policy_arn = "${aws_iam_policy.ci_policy.arn}"
 }
 
+resource "aws_iam_policy" "2ndline_policy" {
+    name = "2ndline_policy_attachment"
+    description = "2ndline policy: access to all S3 buckets"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [ "s3:*" ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::govuk-terraform-state-integration",
+                "arn:aws:s3:::govuk-terraform-state-integration/*"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy_attachment" "2ndline_attachment" {
+  name = "2ndline_policy_attachment"
+  groups = ["${aws_iam_group.2ndline.name}"]
+  policy_arn = "${aws_iam_policy.2ndline_policy.arn}"
+}
