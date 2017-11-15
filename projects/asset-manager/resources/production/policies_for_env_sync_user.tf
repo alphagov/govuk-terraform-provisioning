@@ -31,6 +31,7 @@ data "aws_iam_policy_document" "asset-manager-env-sync-user" {
     actions = [
       "s3:GetObject",
       "s3:PutObject",
+      "s3:PutObjectAcl",
       "s3:DeleteObject"
     ]
     resources = [
