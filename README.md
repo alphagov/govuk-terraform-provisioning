@@ -1,59 +1,30 @@
 # GOV.UK provisioning in Terraform
 
-This repository contains the configuration to provision parts of GOV.UK.
-We're using Terraform as an experiment.
+This repository contains the configuration to provision parts of GOV.UK on AWS
+such as S3 buckets. We're using Terraform v0.8.
 
-## Installing Terraform
+This is distinct from our AWS migration work (see `alphagov/govuk-aws`). We
+plan to roll this repo into that one, with some updates, in time.
 
-```
-brew update
-brew install terraform
-```
+## Deploying your changes
 
-## Setting up credentials
+When you make changes and merge them to master, you will need to deploy them.
 
-Export your AWS credentials as environment variables:
+Terraform has `plan` and `apply` steps, which should be self explanatory. There
+is a [Jenkins
+job](https://deploy.publishing.service.gov.uk/job/Deploy_Terraform_Project/) in
+all three environments named "Deploy Terraform Project" that will deploy
+changes that are on master.
 
-```
-export AWS_ACCESS_KEY_ID='ACCESS_KEY'
-export AWS_SECRET_ACCESS_KEY='SECRET_KEY'
-```
+It requires:
 
-## Setting up the environment
+- The project name (for example, `user_management` or `asset-manager`).
+- Your AWS access key and secret key for the specific environment.
+- Whether you're running a `plan` or an `apply`.
 
-Export the environment applicable to your credentials:
-
-```
-export DEPLOY_ENV=<environment>
-```
-
-## Setting up your project
-
-Export the project you're working on as an environment variable. Projects are
-stored under the `projects` directory:
-
-```
-export PROJECT_NAME=<project>
-```
-
-## Show potential changes
-
-```
-bundle install
-bundle exec rake plan
-```
-
-## Apply changes
-
-```
-bundle exec rake apply
-```
-
-## Making a graph
-
-```
-bundle exec rake graph
-```
+If you don't have AWS access keys yourself and are asked to do this by someone
+while on 2ndline, there are shared credentials in the 2ndline password store
+under `aws/`, separated by environment.
 
 # Project Directories
 
