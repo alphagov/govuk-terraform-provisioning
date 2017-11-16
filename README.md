@@ -28,6 +28,11 @@ under `aws/`, separated by environment.
 
 # Project Directories
 
-The projects located in `old-projects` were built with Terraform `0.6` and are being left as-is until
-we have a need to update them. All new projects should work with at least Terraform `0.7` and be located in
-`projects`
+The projects located in `old-projects` were built with Terraform `0.6` and are
+being left as-is until we have a need to update them. All new projects should
+work with at least Terraform `0.7` and be located in `projects`.
+
+# Developing locally
+
+See [this guide](docs/local-development-or-test-accounts.md) if you want to
+develop locally on the command-line or use our test account.
