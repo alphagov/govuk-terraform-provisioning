@@ -179,7 +179,7 @@ resource "aws_iam_policy" "2ndline_policy" {
                 "iam:GetPolicy"
             ],
             "Effect": "Allow",
-            "Resource": *
+            "Resource": "*"
         },
         {
             "Action": [ "s3:*" ],
