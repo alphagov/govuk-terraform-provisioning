@@ -17,11 +17,6 @@ resource "aws_iam_user" "danielroseman" {
     path = "/users/"
 }
 
-resource "aws_iam_user" "davidbasalla" {
-    name = "davidbasalla"
-    path = "/users/"
-}
-
 resource "aws_iam_user" "davidsilva" {
     name = "davidsilva"
     path = "/users/"
