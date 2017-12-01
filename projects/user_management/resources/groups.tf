@@ -28,11 +28,6 @@ resource "aws_iam_group" "infrastructure_team" {
     path = "/groups/"
 }
 
-resource "aws_iam_group" "ci" {
-    name = "ci"
-    path = "/groups/"
-}
-
 resource "aws_iam_policy_attachment" "base-user-console-access_user_attachment" {
     name = "base-user-console-access_user_attachment_policy"
     groups = [
@@ -128,42 +123,6 @@ resource "aws_iam_policy" "base-user-console-access" {
     name = "base-user-console-access_user_policy"
     description = "base-user-console-access allows standard user tasks like create access key"
     policy = "${data.template_file.base-user-console-access.rendered}"
-}
-
-resource "aws_iam_policy" "ci_policy" {
-    name = "ci_policy"
-    description = "CI policy: launch instances, manage DNS entries"
-    policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "ec2:*",
-                "iam:AddRoleToInstanceProfile",
-                "iam:PassRole",
-                "route53:*"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        },
-        {
-            "Action": [ "s3:*" ],
-            "Effect": "Allow",
-            "Resource": [
-                "arn:aws:s3:::govuk-terraform-state-integration",
-                "arn:aws:s3:::govuk-terraform-state-integration/*"
-            ]
-        }
-    ]
-}
-EOF
-}
-
-resource "aws_iam_policy_attachment" "ci_attachment" {
-    name = "ci_policy_attachment"
-    groups = ["${aws_iam_group.ci.name}"]
-    policy_arn = "${aws_iam_policy.ci_policy.arn}"
 }
 
 resource "aws_iam_policy" "2ndline_policy" {
