@@ -7,6 +7,7 @@ resource "aws_iam_user" "2ndline" {
     name = "2ndline"
     path = "/users/"
 }
+
 resource "aws_iam_user" "brendanbutler" {
     name = "brendanbutler"
     path = "/users/"
@@ -14,11 +15,6 @@ resource "aws_iam_user" "brendanbutler" {
 
 resource "aws_iam_user" "danielroseman" {
     name = "danielroseman"
-    path = "/users/"
-}
-
-resource "aws_iam_user" "davidbasalla" {
-    name = "davidbasalla"
     path = "/users/"
 }
 
