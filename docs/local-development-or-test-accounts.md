@@ -19,7 +19,7 @@ your own AWS access keys.
 
         export DEPLOY_ENV=<environment>
 
-4. Export the environment variable for the project you're working on (for example `asset-manager`).
+4. Export the environment variable for the project you're working on (for example `developer-docs`).
 
         export PROJECT_NAME=<project>
 
